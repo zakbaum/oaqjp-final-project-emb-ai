@@ -3,6 +3,9 @@
 import requests, json
 
 def emotion_detector(text_to_analyse):
+    
+    """analyze emotions from text with ML library"""
+
     url = 'https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict'
     e_obj = { "raw_document": { "text": text_to_analyse } }  # Create a dictionary with the text to be analyzed
     header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}  # Set the headers required for the API request
@@ -14,26 +17,29 @@ def emotion_detector(text_to_analyse):
     formatted_response = json.loads(response.text)
  
      # Extracting requred set of emotions and score from the response
-    #print(formatted_response[0]['emotion']
     extracted_emotions = formatted_response['emotionPredictions'][0]['emotion']
-    print(extracted_emotions)
+    print(f'Extracted Emotions and scores : {extracted_emotions}') 
 
-    anger_score = formatted_response['emotionPredictions'][0]['emotion']['anger']
-    print(f'this is {anger_score}')
+    anger_score = extracted_emotions['anger']
+    print(f'This is the anger score : {anger_score}')
 
-    disgust_score = formatted_response['emotionPredictions'][0]['emotion']['disgust']
-    fear_score = formatted_response['emotionPredictions'][0]['emotion']['fear']
-    joy_score = formatted_response['emotionPredictions'][0]['emotion']['joy']
-    sadness_score = formatted_response['emotionPredictions'][0]['emotion']['sadness']
+    disgust_score = extracted_emotions['disgust']
+    fear_score = extracted_emotions['fear']
+    joy_score = extracted_emotions['joy']
+    sadness_score = extracted_emotions['sadness']
     
     score_list = [anger_score,disgust_score,fear_score,joy_score,sadness_score]
-    print(score_list)
+    #print(score_list)
     max_score = max(score_list)
-    print(max_score)
+    #print(max_score)
 
+    # match the emotion key with the max_score
+    for e in extracted_emotions:
+        if extracted_emotions[e] == max_score:
+            max_emotion = e
+    
     # Returning a dictionary containing sentiment analysis results
-    #return("Done.")
     return {'anger': anger_score,'disgust': disgust_score, \
             'fear': fear_score,'joy': joy_score, \
             'sadness': sadness_score, \
-            'dominant_emotion': max_score}
+            'dominant_emotion': max_emotion}
