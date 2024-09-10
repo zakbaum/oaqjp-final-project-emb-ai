@@ -15,13 +15,8 @@ def emo_detection():
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
 
-    # Extract the label emotions and scores from the response
-    #label = response['label']
-    #score = response['score']
-
-    # Return a formatted string with the sentiment label and score
-    #return "The given text has been identified as {} with a score of {}.".format(label.split('_')[1], score)
-    return response
+    # Return the emotion detected from given string
+    return (f'For the given statement, the system respons is {response}')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
