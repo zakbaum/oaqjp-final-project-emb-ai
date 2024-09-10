@@ -31,7 +31,7 @@ def emotion_detector(text_to_analyse):
     score_list = [anger_score,disgust_score,fear_score,joy_score,sadness_score]
     #print(score_list)
     max_score = max(score_list)
-    #print(max_score)
+    print(f'This is the max score: {max_score}')
 
     # match the emotion key with the max_score
     for e in extracted_emotions:
