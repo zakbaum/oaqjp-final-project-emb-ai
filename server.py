@@ -14,9 +14,12 @@ def emo_detection():
 
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
-
-    # Return the emotion detected from given string
-    return (f'For the given statement, the system respons is {response}')
+ 
+    if response['dominant_emotion'] == 'None':
+        return  "Invalid text! Please try again!."
+    else:
+       # Return the emotion detected from given string
+       return (f'For the given statement, the system response is {response}')
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)

@@ -15,7 +15,14 @@ def emotion_detector(text_to_analyse):
     
     # Parsing the JSON response from the API
     formatted_response = json.loads(response.text)
- 
+   
+    # If the response status code is 400, assign all dict keys to None
+    if response.status_code == 400:
+       return {'anger': 'None','disgust': 'None', \
+            'fear': 'None','joy': 'None', \
+            'sadness': 'None', \
+            'dominant_emotion': 'None'}
+     
      # Extracting requred set of emotions and score from the response
     extracted_emotions = formatted_response['emotionPredictions'][0]['emotion']
     print(f'Extracted Emotions and scores : {extracted_emotions}') 
@@ -38,6 +45,9 @@ def emotion_detector(text_to_analyse):
         if extracted_emotions[e] == max_score:
             max_emotion = e
     
+    if e == None:
+        return  "Invalid text! Please try again!."
+
     # Returning a dictionary containing sentiment analysis results
     return {'anger': anger_score,'disgust': disgust_score, \
             'fear': fear_score,'joy': joy_score, \
